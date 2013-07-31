@@ -1,20 +1,54 @@
-from bottle import route, run, request, post, redirect, template
-
+from bottle import route, run, request, post, redirect, template, error
 
 
 @route("/invalid")
 def invalid():
-    return '''<html><head><title>Matrix Calculator</title></head><body>Invalid matrixies! <a href="mm"><button>Go Back To Beginning</button></a><footer>
+    return '''<!DOCTYPE html><html><head><style type="text/css">
+    html {
+      background-color: #FFD;
+    }
+    div {
+      border-radius: 25px;
+      border: 1px solid #888;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 25px;
+      margin-bottom: auto;
+      background-color: #DDE;
+    }
+    body {
+      text-align: center;
+    }
+    </style><meta charset="utf-8"><title>Matrix Calculator</title></head><body><div>Invalid matrixies!<br><button form="aqqq" formaction="/mm">Go Back To Beginning</button></div><footer>
     <a href="http://validator.w3.org/check/referer">
     <strong> HTML </strong> Valid! </a>
     <a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">
     <strong> CSS </strong> Valid! </a>
-    </footer></body></html>'''
+    </footer><form id="aqqq"></form></body></html>'''
+
+
+@error(405)
+@error(500)
+def error(error):
+    return invalid()
 
 
 @route("/mm")
 def mm():
-    return '''<html><head><title>Matrix Calculator</title></head><body><form id="form">
+    return '''<!DOCTYPE html><html><head><meta charset="utf-8"><style type=text/css>html {
+      background-color: #FFD
+    }
+    div {
+      border-radius: 25px;
+      border: 1px solid #888;
+      padding-left: 15px;
+      background-color: #DDE;
+      text-align: left;
+    }
+    body {
+      text-align: center;
+    }
+    </style><title>Matrix Calculator</title></head><bsody><div><form id="form">
             First Matrix ("A"):
             <br>Rows:<input name="A Rows" type="text" tabindex=1 />
             Columns:<input name="A Columns" type="text" tabindex=2 />
@@ -27,7 +61,7 @@ def mm():
             <button form="form" formmethod="post" formaction="/mam/me" tabindex=5>Multiply</button>
             <button form="form" formmethod="post" formaction="/mam/ad" tabindex=6>Add</button>
             <button form="form" formmethod="post" formaction="/mam/su" tabindex=7>Subtract</button>
-          </form><footer>
+          </form></div><footer>
           <a href="http://validator.w3.org/check/referer">
           <strong> HTML </strong> Valid! </a>
           <a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">
@@ -97,12 +131,25 @@ def mam(operation):
                 i += 1
             a = a + "<br>"
         a += '<input type="submit" tabindex=' + str(i) + ' /></form>'
-    return '''<html><head><title>Matrix Calculator</title></head><body>''' + a + '''<footer>
-            <a href="http://validator.w3.org/check/referer">
-            <strong> HTML </strong> Valid! </a>
-            <a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">
-            <strong> CSS </strong> Valid! </a>
-            </footer></body></html>'''
+    return '''<!DOCTYPE html><html><head><meta charset="utf-8"><style type=text/css>html {
+      background-color: #FFD
+    }
+    div {
+      border-radius: 25px;
+      border: 1px solid #888;
+      padding-left: 15px;
+      background-color: #DDE;
+      text-align: left;
+    }
+    body {
+      text-align: center;
+    }
+    </style><title>Matrix Calculator</title></head><body><div>''' + a + '''</div><footer>
+    <a href="http://validator.w3.org/check/referer">
+    <strong> HTML </strong> Valid! </a>
+    <a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">
+    <strong> CSS </strong> Valid! </a>
+    </footer></body></html></body></html>'''
 
 
 @post("/tr/<A_R>/<A_C>")
@@ -204,9 +251,11 @@ def me(A_R, A_C, B_R, B_C):
             else:
                 B[r].append(float(a))
     if B_R == '1' and B_C == '1':
-        for r in range(int(A_C)):
-            for c in range(int(A_R)):
-                A[r][c] *= B[0][0]
+        for c in range(int(A_R)):
+            mat.append([])
+            for r in range(int(A_C)):
+                mat[c].append(A[r][c] * B[0][0])
+        A = mat
     else:
         for ar in range(int(A_R)):
             mat.append([])
@@ -218,5 +267,6 @@ def me(A_R, A_C, B_R, B_C):
                 mat[ar][bc] = a
         A = mat
     return template("boxtemplate", a=A, A=C, B=B, operation="me")
+
 
 run(server='gae')

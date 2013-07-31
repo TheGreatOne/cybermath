@@ -1,8 +1,29 @@
-<html><head><title>Matrix Calculator</title><style type="text/css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Matrix Calculator</title>
+<style type="text/css">
 td.a {
     border: 1px dotted #777;
 }
-</style></head><body>
+html {
+  background-color: #FFD;
+}
+div {
+  border-radius: 25px;
+  border: 1px solid #888;
+  padding-left: 15px;
+  background-color: #DDE;
+  text-align: left;
+}
+body {
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div>
 %A_C = str(len(A))
 %A_R = str(len(A[0]))
 %if B == None:
@@ -27,8 +48,8 @@ td.a {
             <input name="A{{y}}{{x}}" type="text" value="{{A[y][x]}}" tabindex={{i}} />
 %            i += 1
 %        end
+        <br>
 %    end
-    <br>
     <input type="submit" tabindex={{i}} /></form>
 %else:
 %    B_C = str(len(B))
@@ -36,8 +57,8 @@ td.a {
 %    b = (int(A_R) * int(A_C)) + (int(B_R) * int(B_C)) + 1
     <form id="form">
         First Matrix ("A"):
-        <br>Rows:<input name="A Rows" type="text" value="''' + A_R + '''" tabindex={{b+1}} />
-        Columns:<input name="A Columns" type="text" value="''' + A_C + '''" tabindex={{b+2}} />
+        <br>Rows:<input name="A Rows" type="text" value="{{A_R}}" tabindex={{b+1}} />
+        Columns:<input name="A Columns" type="text" value="{{A_C}}" tabindex={{b+2}} />
         <button form="form" formmethod="post" formaction="/mam/tr" tabindex={{b+8}}>Transpose A</button>
         <br>
         Second Matrix ("B"):
@@ -75,11 +96,13 @@ td.a {
     </tr>
 %end
 </table>
+
 <hr>
-<a href="/mm"><button>Go Back To Beginning</button></a>
+<a href="/mm"><button>Go Back To Beginning</button></a></div>
 <footer>
 <a href="http://validator.w3.org/check/referer">
 <strong> HTML </strong> Valid! </a>
 <a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">
 <strong> CSS </strong> Valid! </a>
-</footer></body></html>
+</footer>
+</body></html>
